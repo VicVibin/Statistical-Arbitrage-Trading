@@ -1,7 +1,7 @@
 import yfinance as yf  # Downloads stock data
 import numpy as np     # Computation 
-import pandas as pd    # Handles dataframes
-import matplotlib.pyplot as plt #Plots Data
+import pandas as pd    # Handles DataFrame
+import matplotlib.pyplot as plt # Plots Data
 from statsmodels.tsa.stattools import coint # Useful for cointegration test
 from datetime import datetime, timedelta # For handling dates
 import time  # Useful for time management
@@ -10,7 +10,7 @@ import statsmodels.api as sm # Useful for statiscal linear regression
 """
 The model uses the tickers in sp500 tickers, and loops through to find cointegrated pairs,
 better models should use the actual  S&P500 stocks to find more pairs or Top N most liquid
-stocks over the entire stock market 
+stocks over the entire stock market or any other group of correlated stocks in the market
 
 """
 sp500_tickers = [
@@ -49,7 +49,7 @@ class PairsFinder(object):
     
     viable_pairs = []
     df = yf.download(sp500_tickers, start=start, end=end)["Close"]
-    df = pd.DataFrame(df).dropna(axis=1) # This function dowloads all the stocks in the given list of tickers and removes any columns with NAN values
+    df = pd.DataFrame(df).dropna(axis=1) # This function downloads all the stocks in the given list of tickers and removes any columns with NAN values
     train = df.iloc[-2* trading_window: -trading_window, :] # Hyperparameter 1, Checks through - Trading window, Trades through last trading window
     test = df.iloc[-trading_window:, :]
     columns = df.columns.unique()
